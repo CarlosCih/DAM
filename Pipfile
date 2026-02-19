@@ -8,6 +8,7 @@ django = "*"
 djangorestframework = "*"
 django-simple-history = "*"
 pandas = "*"
+django-environ = "*"
 
 [dev-packages]
 
