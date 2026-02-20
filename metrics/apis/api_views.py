@@ -1,4 +1,3 @@
-from datetime import datetime, timedelta
 from django.db.models.functions import TruncDay, TruncWeek, TruncMonth
 from django.db.models import Count,Avg, F, ExpressionWrapper, DurationField
 from django.utils.timezone import make_aware, now
@@ -8,42 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 
 from .serializers import SummarySerializer, ChartDataSerializer
 
-from .models import Ticket
-
-#===========================================
-# Utils para manejo de fechas en las vistas de métricas
-#===========================================
-def parse_date(date_str: str):
-    # Espera YYYY-MM-DD
-    try:
-        dt = datetime.strptime(date_str, "%Y-%m-%d")
-        return make_aware(dt)
-    except ValueError:
-        raise ValueError("Fecha inválida. Formato esperado: YYYY-MM-DD")
-
-def get_date_range(request):
-    # Si no se proporcionan fechas, usar el rango de los últimos 30 días
-    to_str = request.GET.get('to')
-    from_str = request.GET.get('from')
-    
-    if to_str:
-        end = parse_date(to_str) + timedelta(days=1)  # Incluir el día final
-    else:
-        end = now()
-        
-    if from_str:
-        start = parse_date(from_str)
-    else:
-        start = end - timedelta(days=30)
-        
-    if start > end:
-        raise ValueError("La fecha 'from' no puede ser posterior a la fecha 'to'.")
-    
-    return start, end
-
-#===========================================
-# Otras funciones relacionadas con fechas pueden ir aquí
-#===========================================
+from ..models import Ticket
+from ..utils.utils import get_date_range
 
 # Api views para las métricas, funcion: muestra un resumen de las métricas principales (total, abiertos, cerrados, etc) en un rango de fechas dado. Si no se dan fechas, se muestra el resumen de los últimos 30 días.
 class MetricsSummaryView(APIView):
