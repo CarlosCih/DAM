@@ -257,6 +257,13 @@ body {
 	min-height: 280px;
 }
 
+#chartStatus {
+	max-width: 500px;
+	max-height: 500px;
+	min-height: 500px;
+	margin: 0.25rem auto 0;
+}
+
 .chart-empty {
 	min-height: 280px;
 	display: flex;

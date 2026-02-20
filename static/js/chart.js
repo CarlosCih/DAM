@@ -87,6 +87,9 @@
           data,
           options: {
             responsive: true,
+            maintainAspectRatio: true,
+            cutout: "50%",
+            radius: "90%",
             plugins: { legend: { position: "bottom" } }
           }
         });
