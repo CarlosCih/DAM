@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.timezone import now
 from simple_history.models import HistoricalRecords
 
 # Create your models here.
@@ -30,12 +31,21 @@ class Ticket(models.Model):
     assigned_to = models.CharField(max_length=100, verbose_name="Asignado a")
     content = models.TextField(verbose_name="Contenido")
     history = HistoricalRecords()
+    closed_at = models.DateTimeField(null=True, blank=True, verbose_name="Fecha de cierre")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Fecha de creación")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Fecha de actualización")
     
     class Meta:
         verbose_name = "Ticket"
         verbose_name_plural = "Tickets"
+
+    def save(self, *args, **kwargs):
+        if self.status == 'closed' and self.closed_at is None:
+            self.closed_at = now()
+        elif self.status != 'closed' and self.closed_at is not None:
+            self.closed_at = None
+
+        super().save(*args, **kwargs)
     
     def __str__(self):
         return self.title
