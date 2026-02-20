@@ -86,7 +86,7 @@ class MetricsTimeSeriesView(APIView):
             values = [r["values"] for r in rows]
             
             payload = {
-                "label": labels,
+                "labels": labels,
                 "datasets": [
                     {
                         "label": f"Tickets {metric}",
@@ -128,7 +128,7 @@ class MetricsBreakdownView(APIView):
             values = [r["value"] for r in rows]
             
             payload = {
-                "label": labels,
+                "labels": labels,
                 "datasets": [
                     {
                         "label": f"Tickets por {by}",

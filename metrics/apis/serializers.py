@@ -9,6 +9,6 @@ class SummarySerializer(serializers.Serializer):
     avg_resolution_hours=serializers.FloatField(allow_null=True)
     
 class ChartDataSerializer(serializers.Serializer):
-    label=serializers.ListField(child=serializers.CharField())
+    labels=serializers.ListField(child=serializers.CharField())
     datasets=serializers.ListField(child=serializers.DictField())
     
